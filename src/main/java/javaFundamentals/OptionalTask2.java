@@ -20,7 +20,7 @@ public class OptionalTask2 {
         }
 
 
-        Map<Integer,ArrayList<Integer>> map = new HashMap<>();
+        Map<Integer, ArrayList<Integer>> map = new HashMap<>();
         for (int i = 0; i < n; i++) {
             ArrayList<Integer> rows = new ArrayList();
             for (int j = 0; j < n; j++) {
@@ -29,9 +29,9 @@ public class OptionalTask2 {
                 rows.add(randomValue);
             }
             System.out.println();
-            map.put(i,rows);
+            map.put(i, rows);
         }
-        System.out.println( map.toString());
+        System.out.println(map.toString());
 
         System.out.println("Choose number column which need sort :");
         int column = 0;
@@ -41,17 +41,50 @@ public class OptionalTask2 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for(Map.Entry<Integer,ArrayList<Integer>> arr :map.entrySet() ){
-             ArrayList<Integer> valueArr =arr.getValue();
-             int valueByColumn= valueArr.get(column);
+        for (Map.Entry<Integer, ArrayList<Integer>> arr : map.entrySet()) {
+            ArrayList<Integer> valueArr = arr.getValue();
+            int valueByColumn = valueArr.get(column);
             array.add(valueByColumn);
         }
         Collections.sort(array);
 
-        for(Map.Entry<Integer,ArrayList<Integer>> arr :map.entrySet() ){
-            ArrayList<Integer> valueArr =arr.getValue();
-            valueArr.set(column,array.get(arr.getKey()));
+        for (Map.Entry<Integer, ArrayList<Integer>> arr : map.entrySet()) {
+            ArrayList<Integer> valueArr = arr.getValue();
+            valueArr.set(column, array.get(arr.getKey()));
             System.out.println(arr.toString());
         }
+
+        //Найти и вывести наибольшее число возрастающих (убывающих) элементов матрицы, идущих подряд.
+
+        ArrayList<Integer> maxCountElements = new ArrayList<>();
+        ArrayList<Integer> allElementMatrix = new ArrayList<>();
+        for (Map.Entry<Integer, ArrayList<Integer>> arr : map.entrySet()) {
+            ArrayList<Integer> valueArr = arr.getValue();
+            for (Integer value : valueArr) {
+                allElementMatrix.add(value);
+            }
+        }
+        System.out.println("All elements matrix =" + allElementMatrix.toString());
+        ArrayList<Integer> currentArrayElements = new ArrayList<>();
+        for (int i = 0; i < allElementMatrix.size() - 1; i++) {
+            int valueInit = allElementMatrix.get(i);
+            int valueNext = allElementMatrix.get(i + 1);
+            if (valueNext > valueInit) {
+                currentArrayElements.add(valueInit);
+                if (valueNext == allElementMatrix.get(allElementMatrix.size() - 1)) {
+                    currentArrayElements.add(valueNext);
+                }
+
+            } else {
+                if (currentArrayElements.size() >= maxCountElements.size()) {
+                    maxCountElements = currentArrayElements;
+                    currentArrayElements = new ArrayList<>();
+                } else
+                    currentArrayElements = new ArrayList<>();
+
+            }
+        }
+        System.out.println("Number of increasing matrix : " + maxCountElements.toString());
+
     }
 }
